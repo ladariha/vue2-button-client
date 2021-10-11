@@ -1,26 +1,27 @@
 <template>
   <div id="app">
-    <JsonEditorVue :modelValue.sync="obj" v-bind="obj" />
-    <MyButton/>
-    <p>Mouse: {{ x }}x{{ y }}</p>
+    <MyButton />
+    Reactive number: {{ randomNumber }}
   </div>
 </template>
 
 <script lang="ts">
-import { MyButton } from "ladariha-button";
-import JsonEditorVue from "json-editor-vue";
-import { useMouse } from "@vue-demi/use-mouse";
-import { defineComponent } from "@vue/composition-api";
+import MyButton from "ladariha-button/src/components/MyButton.vue";
+import { defineComponent, ref } from "@vue/composition-api";
 
 export default defineComponent({
   name: "App",
   components: {
-    JsonEditorVue, MyButton,
+    MyButton,
   },
   setup() {
-    const {x, y} = useMouse();
-    const obj = { a : 1}
-    return {x, y, obj};
+    const randomNumber = ref(Math.random());
+
+    setInterval(() => {
+      randomNumber.value = Math.random();
+    }, 3000);
+
+    return { randomNumber };
   },
 });
 </script>
